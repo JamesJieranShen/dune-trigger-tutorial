@@ -1,0 +1,61 @@
+#include "triggerana_tree.fcl"
+#include "geometry_dune.fcl"
+#include "services_dunefd_horizdrift_1x2x6.fcl"
+#include "tools_dune.fcl"
+
+process_name: TriggerActivityMaker
+services:
+{
+  TFileService: { fileName: "triggerAna.root" }
+  #TimeTracker:          @local::dune_time_tracker
+  #MemoryTracker:        @local::dune_memory_tracker
+  RandomNumberGenerator: {} #ART native random number generator
+  WireReadout:          @local::dune_wire_readout
+  Geometry:             @local::dune10kt_1x2x6_v6_refactored_geo
+  message:              @local::dune_message_services_prod
+  IFDH: {}
+}
+
+source:
+{
+  module_type: RootInput
+  maxEvents:  10        # Number of events to create
+  saveMemoryObjectThreshold: 0
+}
+
+physics:
+{
+  producers:
+  {
+
+    tamakerTPC:
+    {
+      module_type: TriggerActivityMakerTPC
+      tp_tag: "tpmakerTPC"
+      algorithm: "TriggerActivityMakerChannelAdjacencyPlugin"
+      algconfig_plane0: {
+        window_length: 4000
+        adjacency_threshold: 5
+        adj_tolerance: 0
+      }
+      algconfig_plane1: {
+        window_length: 4000
+        adjacency_threshold: 5
+        adj_tolerance: 0
+      }
+      algconfig_plane2: {
+        window_length: 4000
+        adjacency_threshold: 5
+        adj_tolerance: 0
+      }
+      verbosity: 1
+      flush: true
+    }
+  }
+
+
+
+ reco: [ tamakerTPC ]
+ trigger_paths: [ reco ]
+}
+
