@@ -50,9 +50,8 @@ mrb g  -t v10_04_07d00 dunetrigger
 ```sh
 cd $MRB_BUILDDIR  #go to build directory
 mrbsetenv #set up environment variables for build
-mrb i -j4 #compile
+mrb i --generator=ninja  #compile
 ```
-> Note: -j flag tells the compiler the number of cores to use, N. Maximum number available for building depends on machine type. N = 4 for dunegpvms 01-15, N = 16 for dunebuild 01-03.
 
 9. Once compiling is finished, set up all the products in localProducts directory.
  
@@ -65,21 +64,18 @@ Otherwise, simply make a script e.g. *setup_dune.sh* which should let you pick u
 
 ```sh
 #!/bin/bash
-VERSION=v10_04_07d00  
-QUALS=e26:prof  
-export UPS_OVERRIDE="-H Linux64bit+3.10-2.17"
-
-# Source the setup script for the DUNE software
+export UPS_OVERRIDE="-H Linux64bit+3.10-2.17" # makes certain you get the right UPS
 source /cvmfs/dune.opensciencegrid.org/products/dune/setup_dune.sh
+export DUNESW_QUALIFIER=e26:prof
+export COMPILER=e26
 
-# Setup the specific version of the DUNE software
-setup dunesw ${VERSION} -q ${QUALS}
-
-# Source the setup script for the local products associated to the development area
-source localProducts_*/setup
-
-# Set up the MRB source local products
+export DUNESW_VERSION=v10_04_07d00
+setup dunesw $DUNESW_VERSION -q $DUNESW_QUALIFIER
+source dunesw-${DUNESW_VERSION}/localProducts_larsoft_*/setup
 mrbslp
+
+# setup larsoft ${LARSOFT_VERSION} -q debug:${COMPILER}
+alias buildsw='ninja -C ${MRB_BUILDDIR} -k 0 install | grep -v "Up-to-date" '
 
 # Speedy building! 
 alias build="mrbsetenv; cd $MRB_BUILDDIR; mrb i -j4; mrbslp"
