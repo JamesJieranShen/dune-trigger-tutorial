@@ -78,7 +78,7 @@ mrbslp
 alias buildsw='ninja -C ${MRB_BUILDDIR} -k 0 install | grep -v "Up-to-date" '
 
 # Speedy building! 
-alias build="mrbsetenv; cd $MRB_BUILDDIR; mrb i -j4; mrbslp"
+alias build="mrbsetenv; cd $MRB_BUILDDIR; mrb i --generator=ninja; mrbslp"
 ```
 
 **The above needs to be run within the container environment.**
