@@ -146,9 +146,16 @@ The above command will display the 1st event of the file `singlee_test_ana.root`
 ## Dumping raw digits
 The ADC waveforms for a given event can be inspected by dumping the raw digit information to file and plotting in python:
 ```
-lar -c fcl/adc_dump.fcl singlee_test_detsim.root -n 1
+lar -c fcl/adc_dump.fcl singlee_test_detsim.root -o waveforms.txt -n 1
 ```
 
+You can inspect the raw waveforms using the following (select an area of interest to zoom in):
+
+
+```
+python3 EventDisplay.py waveforms.txt
+
+```
 
 
 
