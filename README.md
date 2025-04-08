@@ -60,26 +60,8 @@ mrb i --generator=ninja  #compile
 ## Next time you log back in
 
 You *only* need to go through the previous stages when setting up a fresh development area.
-Otherwise, simply make a script e.g. *setup_dune.sh* which should let you pick up where you left off once you log back in:
+Otherwise, simply make a script e.g. [setup_dune.sh](https://github.com/JamesJieranShen/dune-trigger-tutorial/blob/main/setup_dunesw.sh) which should let you pick up where you left off once you log back in:
 
-```sh
-#!/bin/bash
-export UPS_OVERRIDE="-H Linux64bit+3.10-2.17" # makes certain you get the right UPS
-source /cvmfs/dune.opensciencegrid.org/products/dune/setup_dune.sh
-export DUNESW_QUALIFIER=e26:prof
-export COMPILER=e26
-
-export DUNESW_VERSION=v10_04_07d00
-setup dunesw $DUNESW_VERSION -q $DUNESW_QUALIFIER
-source dunesw-${DUNESW_VERSION}/localProducts_larsoft_*/setup
-mrbslp
-
-# setup larsoft ${LARSOFT_VERSION} -q debug:${COMPILER}
-alias buildsw='ninja -C ${MRB_BUILDDIR} -k 0 install | grep -v "Up-to-date" '
-
-# Speedy building! 
-alias build="mrbsetenv; cd $MRB_BUILDDIR; mrb i --generator=ninja; mrbslp"
-```
 
 **The above needs to be run within the container environment.**
 
