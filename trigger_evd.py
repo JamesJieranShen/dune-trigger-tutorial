@@ -51,7 +51,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     
     with uproot.open(args.input) as f:
-        tps = f['triggerAna/TriggerPrimitives/tpmakerTPC__TriggerSimOnline']
+        tps = f['triggerAna/TriggerPrimitives/tpmakerTPC__TriggerPrimitiveMaker']
         tps = tps.arrays(cut=f'Event=={args.event}')
         tas = f['triggerAna/TriggerActivities/tamakerTPC__TriggerActivityMaker']
         tas = tas.arrays(cut=f'Event=={args.event}')

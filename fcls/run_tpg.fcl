@@ -1,7 +1,7 @@
 #include "services_dunefd_horizdrift_1x2x6.fcl"
 #include "tools_dune.fcl"
 
-process_name: TriggerSimOnline 
+process_name: TriggerPrimitiveMaker
 
 services:
 {
