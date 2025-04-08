@@ -67,11 +67,23 @@ Otherwise, simply make a script e.g. [setup_dune.sh](https://github.com/JamesJie
 
 ## Running Simulations
 
-As an example, let's run 10 events consisting of 500 MeV electrons in the 1z2x6 FD HD geometry. These things are typically done in the /data directory on FNAL machines.
+As an example, let's run 10 events consisting of 500 MeV electrons in the 1z2x6 FD HD geometry. These things are typically done in the /data directory on FNAL machines (due to larger disc size than /app).
 
 ```
 cd  /exp/dune/app/users/${USER}
 ```
+
+Otherwise, if running on local machines, the running of the simulation can be done wherever. Clone this repository to get some tools for running and inspecting the trigger output:
+
+
+```
+git clone https://github.com/JamesJieranShen/dune-trigger-tutorial
+```
+
+```
+cd dune-trigger-tutorial
+```
+
 
 **Generator stage (Gen)**
 ```
@@ -97,7 +109,7 @@ The TPMakers take `raw::RawDigit` as input, and output `dunedaq::trgdataformats:
 
 Run the above with
 ```
-lar -c run_tpg.fcl singlee_test_detsim.root -o singlee_test_tps.root -n -1
+lar -c fcl/run_tpg.fcl singlee_test_detsim.root -o singlee_test_tps.root -n -1
 ```
 
 **Trigger Activity Making**
@@ -108,7 +120,7 @@ The TAMaker take `dunedaq::trgdataformats::TriggerPrimitive` as input, and outpu
 
 Run the above with
 ```
-lar -c run_tam.fcl singlee_test_tps.root -o singlee_test_tas.root -n -1
+lar -c fcl/run_tam.fcl singlee_test_tps.root -o singlee_test_tas.root -n -1
 ```
 
 **Generate AnaTree**
@@ -116,7 +128,7 @@ lar -c run_tam.fcl singlee_test_tps.root -o singlee_test_tas.root -n -1
 
 Run the above with 
 ```
-lar -c run_ana.fcl singlee_test_tas.root -T singlee_test_ana.root -n -1
+lar -c fcl/run_ana.fcl singlee_test_tas.root -T singlee_test_ana.root -n -1
 ```
 Note the different output flag (`-T` vs `-o`), as we are now asking an _Analyzer_ to generate a ROOT File, but not asking a _Producer_ to generate an art output.
 
@@ -130,6 +142,14 @@ python trigger_evd.py -i singlee_test_ana.root -e 1 [--combine]
 The above command will display the 1st event of the file `singlee_test_ana.root`. If `--combine` is provided, the display will overlay signal from all APAs into one single APA (`channel = channel % channel_per_apa`). If all goes well, you well see:
 - recangular blobs representing TPs. The color of the blob represents the magnitude of its peak.
 - Red rectangular boxes representing TAs. The corners of the box signifies the channel/time of the start/end of the TA. The dotted crosshair inside each box signals the channel/time of the peak of the TA.
+
+## Dumping raw digits
+The ADC waveforms for a given event can be inspected by dumping the raw digit information to file and plotting in python:
+```
+lar -c fcl/adc_dump.fcl singlee_test_detsim.root -n 1
+```
+
+
 
 
 
