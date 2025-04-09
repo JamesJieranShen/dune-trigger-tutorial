@@ -109,7 +109,7 @@ The TPMakers take `raw::RawDigit` as input, and output `dunedaq::trgdataformats:
 
 Run the above with
 ```
-lar -c fcl/run_tpg.fcl singlee_test_detsim.root -o singlee_test_tps.root -n -1
+lar -c fcls/run_tpg.fcl singlee_test_detsim.root -o singlee_test_tps.root -n -1
 ```
 
 **Trigger Activity Making**
@@ -120,7 +120,7 @@ The TAMaker take `dunedaq::trgdataformats::TriggerPrimitive` as input, and outpu
 
 Run the above with
 ```
-lar -c fcl/run_tam.fcl singlee_test_tps.root -o singlee_test_tas.root -n -1
+lar -c fcls/run_tam.fcl singlee_test_tps.root -o singlee_test_tas.root -n -1
 ```
 
 **Generate AnaTree**
@@ -128,7 +128,7 @@ lar -c fcl/run_tam.fcl singlee_test_tps.root -o singlee_test_tas.root -n -1
 
 Run the above with 
 ```
-lar -c fcl/run_ana.fcl singlee_test_tas.root -T singlee_test_ana.root -n -1
+lar -c fcls/run_ana.fcl singlee_test_tas.root -T singlee_test_ana.root -n -1
 ```
 Note the different output flag (`-T` vs `-o`), as we are now asking an _Analyzer_ to generate a ROOT File, but not asking a _Producer_ to generate an art output.
 
@@ -146,7 +146,7 @@ The above command will display the 1st event of the file `singlee_test_ana.root`
 ## Dumping raw digits
 The ADC waveforms for a given event can be inspected by dumping the raw digit information to file and plotting in python:
 ```
-lar -c fcl/adc_dump.fcl singlee_test_detsim.root -o waveforms.txt -n 1
+lar -c fcls/adc_dump.fcl singlee_test_detsim.root -o waveforms.txt -n 1
 ```
 
 You can inspect the raw waveforms using the following (select an area of interest to zoom in):
